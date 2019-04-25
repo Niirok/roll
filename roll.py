@@ -1,3 +1,4 @@
+import sys
 import re
 
 from dice.dice import Dice
@@ -32,27 +33,34 @@ def findDiceFaces(dice_tokens):
 
 
 
-def roll(input_dice="1d6"):
-    dice_list = []
+def roll(dice_list=None):
 
+    if dice_list is None:
+        dice_list=["1d6"]
 
-    print("Roll as been requested :" + input_dice)
+    for elem in dice_list:
+        print("Roll as been requested :" + elem)
 
-    dice_tokens = re.split('(; |, |\+|d|\-)', input_dice)
-    print(dice_tokens)
+        dice_tokens = re.split('(; |, |\+|d|\-)', elem)
+        print(dice_tokens)
 
-    dice_nbr = findDiceNbr(dice_tokens)
-    dice_faces = findDiceFaces(dice_tokens)
+        dice_nbr = findDiceNbr(dice_tokens)
+        dice_faces = findDiceFaces(dice_tokens)
 
-    dice = Dice(dice_nbr, dice_faces)
+        dice = Dice(dice_nbr, dice_faces)
 
-    #dice_list.append(dice)
+        #Modificator handling is not that simple
+        #roll_modifier= findRollModifier(dice_tokens)
 
-    dice.roll()
+        #dice_list.append(dice)
 
-    #Modificator handling is not that simple
-    #roll_modifier= findRollModifier(dice_tokens)
+        dice.roll()
+
 
 if __name__ == '__main__':
-    # get args, then roll
-    roll()
+    dice_requested = None
+    if len(sys.argv) > 1:
+        #get roll command argument
+        dice_requested = sys.argv[1:]
+
+    roll(dice_requested)
