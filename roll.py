@@ -64,3 +64,9 @@ if __name__ == '__main__':
         dice_requested = sys.argv[1:]
 
     roll(dice_requested)
+
+
+#TODO Add modifier parsing
+#TODO Add error handlers for wrong inputs
+#TODO Add option to get each dice value
+#TODO Add option to get total sum with many arguments
