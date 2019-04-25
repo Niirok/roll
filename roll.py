@@ -5,15 +5,23 @@ from dice.dice import Dice
 
 
 def findDiceNbr(dice_tokens):
-    central_index = dice_tokens.index("d")
-    return dice_tokens[central_index-1]
+    try:
+        central_index = dice_tokens.index("d")
+    except Exception as e:
+        print("Error parsing input command: ", e)
+        sys.exit(4)
+
+    return int(dice_tokens[central_index - 1])
 
 
 def findDiceFaces(dice_tokens):
-    central_index = dice_tokens.index("d")
+    try :
+        central_index = dice_tokens.index("d")
+    except Exception as e:
+        print("Error parsing input command: ", e)
+        sys.exit(4)
 
-    return dice_tokens[central_index + 1]
-
+    return int(dice_tokens[central_index + 1])
 
 def findRollModifier(dice_tokens):
     plus_modifier = 0
@@ -45,7 +53,6 @@ def roll(dice_list=None):
         print("Roll as been requested :" + elem)
 
         dice_tokens = re.split('(; |d|\+|\-)', elem)
-        print(dice_tokens)
 
         dice_nbr = findDiceNbr(dice_tokens)
         dice_faces = findDiceFaces(dice_tokens)
@@ -53,9 +60,7 @@ def roll(dice_list=None):
 
         dice = Dice(dice_nbr, dice_faces, roll_modifier)
 
-        #dice_list.append(dice)
-
-        dice.roll()
+        dice.throw()
 
 
 if __name__ == '__main__':
@@ -67,7 +72,6 @@ if __name__ == '__main__':
     roll(dice_requested)
 
 
-#TODO Add error handlers for wrong inputs
 #TODO Add option to get each dice value
 #TODO Add option to get total sum with many arguments
 #TODO Add option to reroll open dices
