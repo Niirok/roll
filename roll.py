@@ -1,50 +1,13 @@
 import sys
+import argparse
 import re
 
 from dice.dice import Dice
-
-
-def findDiceNbr(dice_tokens):
-    try:
-        central_index = dice_tokens.index("d")
-    except Exception as e:
-        print("Error parsing input command: ", e)
-        sys.exit(4)
-
-    return int(dice_tokens[central_index - 1])
-
-
-def findDiceFaces(dice_tokens):
-    try :
-        central_index = dice_tokens.index("d")
-    except Exception as e:
-        print("Error parsing input command: ", e)
-        sys.exit(4)
-
-    return int(dice_tokens[central_index + 1])
-
-def findRollModifier(dice_tokens):
-    plus_modifier = 0
-    minus_modifier = 0
-
-    try :
-        modifier_plus_index = dice_tokens.index("+")
-        plus_modifier = dice_tokens[modifier_plus_index+1]
-    except ValueError:
-        pass
-
-    try:
-        modifier_minus_index = dice_tokens.index("-")
-        minus_modifier = dice_tokens[modifier_minus_index + 1]
-    except ValueError:
-        pass
-
-    total = int(plus_modifier) - int(minus_modifier)
-
-    return total
+from dice.dicefactory import DiceFactory
 
 
 def roll(dice_list=None):
+    dice_factory = DiceFactory()
 
     if dice_list is None:
         dice_list=["1d6"]
@@ -54,20 +17,28 @@ def roll(dice_list=None):
 
         dice_tokens = re.split('(; |d|\+|\-)', elem)
 
-        dice_nbr = findDiceNbr(dice_tokens)
-        dice_faces = findDiceFaces(dice_tokens)
-        roll_modifier = findRollModifier(dice_tokens)
-
-        dice = Dice(dice_nbr, dice_faces, roll_modifier)
+        dice = dice_factory.pick(dice_tokens)
 
         dice.throw()
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
+
     dice_requested = None
+
     if len(sys.argv) > 1:
         #get roll command argument
-        dice_requested = sys.argv[1:]
+        dice_requested = [entry for entry in sys.argv[1:] if entry[0] != '-']
+
+        for argument in sys.argv[:]:
+            if argument in dice_requested:
+                sys.argv.remove(argument)
+
+    args = parser.parse_args()
+    print(args, dice_requested)
+
 
     roll(dice_requested)
 
