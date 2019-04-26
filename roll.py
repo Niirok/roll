@@ -6,17 +6,17 @@ from dice.dice import Dice
 from dice.dicefactory import DiceFactory
 
 
-def roll(dice_list=None):
+def roll(dice_list=None, kwargs=None):
     dice_factory = DiceFactory()
 
     if dice_list is None:
         dice_list=["1d6"]
 
     for elem in dice_list:
-        print("Roll as been requested :" + elem)
+        if  kwargs["verbose"]:
+            print("Roll as been requested :" + elem)
 
         dice_tokens = re.split('(; |d|\+|\-)', elem)
-
         dice = dice_factory.pick(dice_tokens)
 
         dice.throw()
@@ -25,6 +25,7 @@ def roll(dice_list=None):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
+    parser.add_argument("-S", "--separate_values", help="each result is displayed", action="store_true")
 
     dice_requested = None
 
@@ -36,11 +37,10 @@ if __name__ == '__main__':
             if argument in dice_requested:
                 sys.argv.remove(argument)
 
-    args = parser.parse_args()
-    print(args, dice_requested)
+    raw_args = parser.parse_args()
+    args = vars(raw_args)
 
-
-    roll(dice_requested)
+    roll(dice_requested, kwargs=args)
 
 
 #TODO Add option to get each dice value
