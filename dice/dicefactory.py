@@ -1,3 +1,5 @@
+import sys
+
 from dice.dice import Dice
 
 
@@ -6,23 +8,15 @@ class DiceFactory:
     def __init__(self):
         pass
 
-    def findDiceNbr(self, dice_tokens):
+    def findCentralIndex(self, dice_tokens):
         try:
             central_index = dice_tokens.index("d")
         except Exception as e:
             print("Error parsing input command: ", e)
             sys.exit(4)
 
-        return int(dice_tokens[central_index - 1])
+        return central_index
 
-    def findDiceFaces(self, dice_tokens):
-        try:
-            central_index = dice_tokens.index("d")
-        except Exception as e:
-            print("Error parsing input command: ", e)
-            sys.exit(4)
-
-        return int(dice_tokens[central_index + 1])
 
     def findRollModifier(self, dice_tokens):
         plus_modifier = 0
@@ -45,8 +39,10 @@ class DiceFactory:
         return total
 
     def pick(self, dice_tokens):
-        dice_nbr = self.findDiceNbr(dice_tokens)
-        dice_faces = self.findDiceFaces(dice_tokens)
+        d_index = self.findCentralIndex(dice_tokens)
+        dice_nbr = int(dice_tokens[d_index-1])
+        dice_faces = int(dice_tokens[d_index+1])
+
         roll_modifier = self.findRollModifier(dice_tokens)
 
         return Dice(dice_nbr, dice_faces, roll_modifier)
