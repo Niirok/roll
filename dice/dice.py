@@ -9,9 +9,14 @@ class Dice:
 
     def throw(self):
         total = 0
+        separated_values = []
+        dice_result= 0
+
         for roll in range (0, self.dice_nbr):
-            total += randint(1, self.dice_faces)
+            dice_result = randint(1, self.dice_faces)
+            separated_values.append(dice_result)
+            total += dice_result
 
         total+=self.modifier
 
-        print(total)
+        return total, separated_values
