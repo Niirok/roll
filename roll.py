@@ -55,3 +55,4 @@ if __name__ == '__main__':
     roll(dice_requested, kwargs=args)
 
 #TODO Add option to reroll open dices
+#TODO The possibility to have non-critical dices
