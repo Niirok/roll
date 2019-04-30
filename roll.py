@@ -2,7 +2,6 @@ import sys
 import argparse
 import re
 
-from dice.dice import Dice
 from dice.dicefactory import DiceFactory
 
 
@@ -36,7 +35,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
     parser.add_argument("-s", "--sum", help="return the sum of all thrown dices", action="store_true")
-    parser.add_argument("-S", "--separate_values", help="each result is displayed", action="store_true")
+    parser.add_argument("-S", "--separate-values", help="each result is displayed", action="store_true")
+    parser.add_argument("-r", "--reroll", help="reroll open dices (a dice is open when it rolls max value)", action="store_true")
+    parser.add_argument("--no-fail", help="dice will never return the 1", action="store_true")
+    parser.add_argument("--no-crit", help="dice will never return max value", action="store_true")
 
     dice_requested = None
 
@@ -54,5 +56,6 @@ if __name__ == '__main__':
 
     roll(dice_requested, kwargs=args)
 
-#TODO Add option to reroll open dices
-#TODO The possibility to have non-critical dices
+#TODO Add option to reroll open dices ONGOING
+#TODO The possibility to have non-critical dices ONGOING
+#TODO Add inspiration/advantage rolls
