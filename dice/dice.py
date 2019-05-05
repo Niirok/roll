@@ -2,7 +2,7 @@ from random import randint
 
 class Dice:
 
-    def __init__(self, dice_nbr, dice_faces, modifier):
+    def __init__(self, dice_nbr, dice_faces, modifier=0):
         self.dice_nbr = dice_nbr
         self.dice_faces = dice_faces
         self.modifier = modifier
@@ -31,3 +31,6 @@ class Dice:
         else :
             return dice_score
 
+
+    def __str__(self):
+        return str(self.dice_nbr)+"d"+str(self.dice_faces)

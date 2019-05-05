@@ -1,45 +1,58 @@
 import sys
 import argparse
-import re
 
 from dice.dicefactory import DiceFactory
+from diceutils import parse_dice_request
 
 
-def roll(dice_list=None, kwargs=None):
+def advantage_decorator(roll_func, dice_list, kwargs=None):
+    def advantage_wrapper():
+        roll_func(dice_list, kwargs=kwargs)
+
+def roll(dice, kwargs=None):
     dice_factory = DiceFactory()
     separated_values = []
+    separated_values_bis= []
     hand_total = 0
 
-    if dice_list is None or dice_list==[]:
-        dice_list=["1d6"]
+    if dice is None:
+        dice = dice_factory.pick_custom(1,6)
 
-    for elem in dice_list:
-        if  kwargs["verbose"]:
-            print("Roll as been requested :" + elem)
+    if  kwargs["verbose"]:
+        print("Roll as been requested : " + dice.__str__())
 
-        dice_tokens = re.split('(; |d|\+|\-)', elem)
-        dice = dice_factory.pick(dice_tokens)
+    total, separated_values  = dice.throw(kwargs=kwargs)
 
-        total, separated_values  = dice.throw(kwargs=kwargs)
+    if kwargs["advantage"]:
+        total_bis, separated_values_bis = dice.throw(kwargs=kwargs)
+        if kwargs["verbose"]:
+            print("Second roll with advantage scored:", total_bis)
 
-        print(total)
-        hand_total+=total
+        if total_bis > total:
+            total = total_bis
+            separated_values = separated_values_bis
 
-        if kwargs["separate_values"]:
-            print(separated_values)
+    print(total)
+    #hand_total+=total
 
-    if kwargs["sum"]:
-        print(hand_total)
+    if kwargs["separated_values"]:
+        if kwargs["verbose"]:
+            print("Each dice score is:")
+        print(separated_values)
+
+    #if kwargs["sum"]:
+        #print(hand_total)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
-    parser.add_argument("-s", "--sum", help="return the sum of all thrown dices", action="store_true")
-    parser.add_argument("-S", "--separate-values", help="each result is displayed", action="store_true")
+    #parser.add_argument("-s", "--sum", help="return the sum of all thrown dices", action="store_true")
+    parser.add_argument("-S", "--separated-values", help="each result is displayed", action="store_true")
     parser.add_argument("-r", "--reroll", help="reroll open dices (a dice is open when it rolls max value)", action="store_true")
-    parser.add_argument("--no-fail", help="dice will never return the 1", action="store_true")
-    parser.add_argument("--no-crit", help="dice will never return max value", action="store_true")
+    parser.add_argument("-a", "--advantage",  help="dices will be rolled twice, picking highest", action="store_true")
+    parser.add_argument("-d", "--disadvantage",  help="dice will be rolled twice, picking lowest", action="store_true")
+
 
     dice_requested = None
 
@@ -54,7 +67,13 @@ if __name__ == '__main__':
     raw_args = parser.parse_args()
     args = vars(raw_args)
 
-    roll(dice_requested, kwargs=args)
+    dice_requested = parse_dice_request(dice_requested)
 
-#TODO The possibility to have non-critical dices ONGOING
-#TODO Add inspiration/advantage rolls
+    print(dice_requested)
+
+
+    for dice in dice_requested:
+        roll(dice, kwargs=args)
+
+#TODO Add disadvantage rolls
+#TODO Refactor --sum arg

@@ -46,3 +46,6 @@ class DiceFactory:
         roll_modifier = self.findRollModifier(dice_tokens)
 
         return Dice(dice_nbr, dice_faces, roll_modifier)
+
+    def pick_custom(self, dice_nbr, dice_faces, roll_modifier=0):
+        return Dice(dice_nbr, dice_faces, roll_modifier)
