@@ -20,7 +20,8 @@ def roll(dice_list=None, kwargs=None):
         dice_tokens = re.split('(; |d|\+|\-)', elem)
         dice = dice_factory.pick(dice_tokens)
 
-        total, separated_values  = dice.throw()
+        total, separated_values  = dice.throw(kwargs=kwargs)
+
         print(total)
         hand_total+=total
 
@@ -53,9 +54,7 @@ if __name__ == '__main__':
     raw_args = parser.parse_args()
     args = vars(raw_args)
 
-
     roll(dice_requested, kwargs=args)
 
-#TODO Add option to reroll open dices ONGOING
 #TODO The possibility to have non-critical dices ONGOING
 #TODO Add inspiration/advantage rolls
