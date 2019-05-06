@@ -9,6 +9,21 @@ def advantage_decorator(roll_func, dice_list, kwargs=None):
     def advantage_wrapper():
         roll_func(dice_list, kwargs=kwargs)
 
+def sum_decorator(roll_func, dice_list, kwargs=None):
+    def sum_wrapper():
+        hand_total = 0
+        for dice in dice_list:
+            hand_total += roll_func(dice, kwargs=kwargs)
+
+        return hand_total
+
+    dice_sum = sum_wrapper()
+
+    if kwargs["verbose"]:
+        print("Sum of all rolls is: ")
+    print(dice_sum)
+
+
 def roll(dice, kwargs=None):
     dice_factory = DiceFactory()
     separated_values = []
@@ -40,14 +55,13 @@ def roll(dice, kwargs=None):
             print("Each dice score is:")
         print(separated_values)
 
-    #if kwargs["sum"]:
-        #print(hand_total)
+    return total
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
-    #parser.add_argument("-s", "--sum", help="return the sum of all thrown dices", action="store_true")
+    parser.add_argument("-s", "--sum", help="return the sum of all thrown dices", action="store_true")
     parser.add_argument("-S", "--separated-values", help="each result is displayed", action="store_true")
     parser.add_argument("-r", "--reroll", help="reroll open dices (a dice is open when it rolls max value)", action="store_true")
     parser.add_argument("-a", "--advantage",  help="dices will be rolled twice, picking highest", action="store_true")
@@ -69,11 +83,11 @@ if __name__ == '__main__':
 
     dice_requested = parse_dice_request(dice_requested)
 
-    print(dice_requested)
+    if args["sum"]:
+        sum_decorator(roll, dice_requested, kwargs=args)
 
-
-    for dice in dice_requested:
-        roll(dice, kwargs=args)
+    else:
+        for dice in dice_requested:
+            roll(dice, kwargs=args)
 
 #TODO Add disadvantage rolls
-#TODO Refactor --sum arg
