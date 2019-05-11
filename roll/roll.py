@@ -1,8 +1,8 @@
-import sys
 import argparse
+import sys
 
 from dice.dicefactory import DiceFactory
-from diceutils import parse_dice_request
+from dice.diceutils import parse_dice_request
 
 
 def roll_advantage(dice, score, sep_values, kwargs=None):
@@ -17,6 +17,7 @@ def roll_advantage(dice, score, sep_values, kwargs=None):
 
     return score, sep_values
 
+
 def roll_disadvantage(dice, score, sep_values, kwargs=None):
     second_roll, second_separated_values = dice.throw(kwargs=kwargs)
 
@@ -28,6 +29,7 @@ def roll_disadvantage(dice, score, sep_values, kwargs=None):
         sep_values = second_separated_values
 
     return score, sep_values
+
 
 def sum_decorator(roll_func, dice_list, kwargs=None):
     def sum_wrapper():
@@ -46,14 +48,11 @@ def sum_decorator(roll_func, dice_list, kwargs=None):
 
 def roll(dice, kwargs=None):
     dice_factory = DiceFactory()
-    separated_values = []
-    second_separated_values= []
-    hand_total = 0
 
     if dice is None:
-        dice = dice_factory.pick_custom(1,6)
+        dice = dice_factory.pick_custom(1, 6)
 
-    if  kwargs["verbose"]:
+    if kwargs["verbose"]:
         print("Roll as been requested : " + dice.__str__())
 
     total, separated_values  = dice.throw(kwargs=kwargs)
@@ -80,15 +79,15 @@ if __name__ == '__main__':
     parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
     parser.add_argument("-s", "--sum", help="return the sum of all thrown dices", action="store_true")
     parser.add_argument("-S", "--separated-values", help="each result is displayed", action="store_true")
-    parser.add_argument("-o", "--open", help="reroll open dices (a dice is open when it rolls max value)", action="store_true")
+    parser.add_argument("-o", "--open", help="reroll open dices (a dice is open when it rolls max value)",
+                        action="store_true")
     parser.add_argument("-a", "--advantage",  help="dices will be rolled twice, picking highest", action="store_true")
     parser.add_argument("-d", "--disadvantage",  help="dice will be rolled twice, picking lowest", action="store_true")
-
 
     dice_requested = None
 
     if len(sys.argv) > 1:
-        #get roll command argument
+        # get roll command argument
         dice_requested = [entry for entry in sys.argv[1:] if entry[0] != '-']
 
         for argument in sys.argv[:]:
