@@ -15,7 +15,7 @@ class Dice:
         for roll in range (0, self.dice_nbr):
             dice_result = randint(1, self.dice_faces)
 
-            if kwargs["reroll"] and dice_result == self.dice_faces:
+            if kwargs["open"] and dice_result == self.dice_faces:
                 dice_result = self.reroll(dice_result)
 
             separated_values.append(dice_result)
