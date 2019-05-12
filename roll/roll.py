@@ -6,6 +6,16 @@ from dice.diceutils import parse_dice_request
 
 
 def roll_advantage(dice, score, sep_values, kwargs=None):
+    """Support method to handle -a (advantage) option
+
+    :param dice: Dice object that needs to be rolled once again
+    :type: Dice
+    :param score: score obtained on first roll
+    :param sep_values: each dice value obtained on first roll
+    :param kwargs:
+    :return: highest results (score, sep_values) of both rolls
+    """
+
     second_roll, second_separated_values = dice.throw(kwargs=kwargs)
 
     if kwargs["verbose"]:
@@ -19,6 +29,16 @@ def roll_advantage(dice, score, sep_values, kwargs=None):
 
 
 def roll_disadvantage(dice, score, sep_values, kwargs=None):
+    """Support method to handle -d (disadvantage) option
+
+    :param dice: Dice object that needs to be rolled once again
+    :type: Dice
+    :param score: score obtained on first roll
+    :param sep_values: each dice value obtained on first roll
+    :param kwargs:
+    :return: highest results (score, sep_values) of both rolls
+    """
+
     second_roll, second_separated_values = dice.throw(kwargs=kwargs)
 
     if kwargs["verbose"]:
@@ -79,7 +99,7 @@ if __name__ == '__main__':
     parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
     parser.add_argument("-s", "--sum", help="return the sum of all thrown dices", action="store_true")
     parser.add_argument("-S", "--separated-values", help="each result is displayed", action="store_true")
-    parser.add_argument("-o", "--open", help="reroll open dices (a dice is open when it rolls max value)",
+    parser.add_argument("-o", "--open", help="reroll open dices (a dice is open when it scores max value)",
                         action="store_true")
     parser.add_argument("-a", "--advantage",  help="dices will be rolled twice, picking highest", action="store_true")
     parser.add_argument("-d", "--disadvantage",  help="dice will be rolled twice, picking lowest", action="store_true")
@@ -98,7 +118,7 @@ if __name__ == '__main__':
     args = vars(raw_args)
 
     if args["advantage"] and args["disadvantage"]:
-        parser.error("You cant't have both option advantage and disadvantage for the same roll")
+        parser.error("You cant't have both options advantage and disadvantage for the same roll")
 
     dice_requested = parse_dice_request(dice_requested)
 
