@@ -57,4 +57,4 @@ class Dice:
             return dice_score
 
     def __str__(self):
-        return str(self.dice_nbr)+"d"+str(self.dice_faces)
+        return str(self.dice_nbr)+"d"+str(self.dice_faces)+str(self.modifier)

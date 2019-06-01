@@ -66,11 +66,13 @@ def sum_decorator(roll_func, dice_list, kwargs=None):
     print(dice_sum)
 
 
-def roll(dice, kwargs=None):
+def roll(dice=None, kwargs=None):
     dice_factory = DiceFactory()
 
     if dice is None:
         dice = dice_factory.pick_custom(1, 6)
+    if kwargs is None:
+        kwargs = {}
 
     if kwargs["verbose"]:
         print("Roll as been requested : " + dice.__str__())
@@ -105,6 +107,8 @@ if __name__ == '__main__':
     parser.add_argument("-d", "--disadvantage",  help="dice will be rolled twice, picking lowest", action="store_true")
 
     dice_requested = None
+
+    print(sys.argv)
 
     if len(sys.argv) > 1:
         # get roll command argument

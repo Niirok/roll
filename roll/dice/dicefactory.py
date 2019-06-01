@@ -47,4 +47,7 @@ class DiceFactory:
         return Dice(dice_nbr, dice_faces, roll_modifier)
 
     def pick_custom(self, dice_nbr, dice_faces, roll_modifier=0):
-        return Dice(dice_nbr, dice_faces, roll_modifier)
+        if not isinstance(dice_nbr, int) or not isinstance(dice_faces, int) or not isinstance(roll_modifier, int):
+            raise ValueError
+        else:
+            return Dice(dice_nbr, dice_faces, roll_modifier)
