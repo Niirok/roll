@@ -12,14 +12,14 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../roll/.'))
+sys.path.insert(0, os.path.abspath('../src/.'))
 
-import roll
+import src
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'roll'
+project = 'src'
 copyright = '2019, Anthony YOUSSEF'
 author = 'Anthony YOUSSEF'
 

@@ -1,6 +1,14 @@
+import os
 import unittest
 
-from roll.dice.dicefactory import DiceFactory
+import sys
+
+from src.dicefactory import DiceFactory
+
+sys.path.append(os.getcwd())
+print(sys.path)
+
+#from src.roll import roll
 
 
 class TestDiceFactoryMethods(unittest.TestCase):
@@ -52,3 +60,12 @@ class TestDiceFactoryMethods(unittest.TestCase):
         self.assertEqual(happy_dice.dice_nbr, 4)
         self.assertEqual(happy_dice.dice_faces, 6)
         self.assertEqual(happy_dice.modifier, 0)
+
+class TestRoll(unittest.TestCase):
+    test_dice_factory = DiceFactory()
+    test_dice = test_dice_factory.pick_custom(1, 20)
+
+    def test_default_case(self):
+        pass
+        #default_result = roll()
+        #self.assertTrue(1 <= default_result <= 6)

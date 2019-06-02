@@ -1,6 +1,6 @@
 import re
 
-from .dicefactory import DiceFactory
+from dicefactory import DiceFactory
 
 
 def convert_args_to_dice_object(dice_args_list):

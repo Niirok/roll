@@ -1,6 +1,6 @@
 import sys
 
-from .dice import Dice
+from src.dice import Dice
 
 
 class DiceFactory:
