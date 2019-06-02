@@ -1,8 +1,10 @@
 # roll
+
 A tiny python command for dices
 
-How to use it : python roll/roll.py [OPTIONS] [DICE(S) YOU WANT TO ROLL]
+How to use it: `python roll/roll.py [OPTIONS] [DICE(S) YOU WANT TO ROLL]`
 
+```
 Syntax for dice is XdY[(+-)modifier]
 available options are :
   -h, --help            show this help message and exit
@@ -14,4 +16,9 @@ available options are :
                         value)
   -a, --advantage       dices will be rolled twice, picking highest
   -d, --disadvantage    dice will be rolled twice, picking lowest
+```
 
+
+## Tests
+
+From the repository's root, run the tests using `python -m unittest discover test`
