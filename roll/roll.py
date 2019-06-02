@@ -1,8 +1,8 @@
 import argparse
 import sys
 
-from dice.dicefactory import DiceFactory
-from dice.diceutils import parse_dice_request
+from .dice.dicefactory import DiceFactory
+from .dice.diceutils import parse_dice_request
 
 
 def roll_advantage(dice, score, sep_values, kwargs=None):
