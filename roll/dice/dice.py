@@ -24,6 +24,8 @@ class Dice:
         :return: total with modifier added and separated_values that saves each dice score
         :rtype: int, list
         """
+        if kwargs is None:
+            kwargs = {}
 
         total = 0
         separated_values = []
@@ -31,7 +33,7 @@ class Dice:
         for roll in range(0, self.dice_nbr):
             dice_result = randint(1, self.dice_faces)
 
-            if kwargs["open"] and dice_result == self.dice_faces:
+            if kwargs.get("open") and dice_result == self.dice_faces:
                 dice_result = self.reroll(dice_result)
 
             separated_values.append(dice_result)

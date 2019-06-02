@@ -1,8 +1,8 @@
 import argparse
 import sys
 
-from dice.dicefactory import DiceFactory
-from dice.diceutils import parse_dice_request
+from .dice.dicefactory import DiceFactory
+from .dice.diceutils import parse_dice_request
 
 
 def roll_advantage(dice, score, sep_values, kwargs=None):
@@ -74,19 +74,19 @@ def roll(dice=None, kwargs=None):
     if kwargs is None:
         kwargs = {}
 
-    if kwargs["verbose"]:
+    if kwargs.get("verbose"):
         print("Roll as been requested : " + dice.__str__())
 
     total, separated_values  = dice.throw(kwargs=kwargs)
 
-    if kwargs["advantage"]:
+    if kwargs.get("advantage"):
         total, separated_values = roll_advantage(dice, total, separated_values, kwargs)
 
-    if kwargs["disadvantage"]:
+    if kwargs.get("disadvantage"):
         total, separated_values = roll_disadvantage(dice, total, separated_values, kwargs)
 
-    if kwargs["separated_values"]:
-        if kwargs["verbose"]:
+    if kwargs.get("separated_values"):
+        if kwargs.get("verbose"):
             print("Each dice score is:")
         print(separated_values)
 
