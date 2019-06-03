@@ -2,7 +2,6 @@ import sys
 
 from .dice import Dice
 
-
 class DiceFactory:
 
     def __init__(self):

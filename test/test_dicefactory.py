@@ -1,6 +1,6 @@
 import unittest
 
-from roll.dice.dicefactory import DiceFactory
+from src.dice.dicefactory import DiceFactory
 
 
 class TestDiceFactoryMethods(unittest.TestCase):
@@ -52,3 +52,6 @@ class TestDiceFactoryMethods(unittest.TestCase):
         self.assertEqual(happy_dice.dice_nbr, 4)
         self.assertEqual(happy_dice.dice_faces, 6)
         self.assertEqual(happy_dice.modifier, 0)
+
+if __name__ == '__main__':
+    unittest.main()

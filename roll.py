@@ -1,8 +1,8 @@
 import argparse
 import sys
 
-from dice.dicefactory import DiceFactory
-from dice.diceutils import parse_dice_request
+from src.dice.dicefactory import DiceFactory
+from src.dice.diceutils import parse_dice_request
 
 
 def roll_advantage(dice, score, sep_values, kwargs=None):
@@ -18,7 +18,7 @@ def roll_advantage(dice, score, sep_values, kwargs=None):
 
     second_roll, second_separated_values = dice.throw(kwargs=kwargs)
 
-    if kwargs["verbose"]:
+    if kwargs.get("verbose"):
         print("Second roll with advantage scored:", second_roll)
 
     if second_roll > score:
@@ -132,3 +132,4 @@ if __name__ == '__main__':
     else:
         for dice in dice_requested:
             roll(dice, kwargs=args)
+
